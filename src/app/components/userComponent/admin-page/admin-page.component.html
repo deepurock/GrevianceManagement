@@ -1,0 +1,41 @@
+<div class="p-5">
+  <nav class="nav nav-pills nav-fill">
+    <a class="nav-item nav-link" href="./registration">Registration</a>
+    <a class="nav-item nav-link" href="./login">Login</a>
+    <a class="nav-item nav-link active nav-color" href="./admin">Admin Login</a>
+  </nav>
+</div>
+<h2 class="col text-center">Admin Login</h2>
+
+<form class="p-5" onsubmit="return false" [formGroup]="adminForm">
+  <div class="form-group">
+    <label for="exampleInputEmail1">Email address</label>
+    <input
+      formControlName="email"
+      class="form-control"
+      aria-describedby="emailHelp"
+      placeholder="Enter email"
+    />
+    <!-- <small id="emailHelp" class="form-text text-muted"
+      >We'll never share your email with anyone else.</small
+    > -->
+  </div>
+  <div class="form-group">
+    <label for="exampleInputPassword1">Password</label>
+    <input
+      formControlName="password"
+      class="form-control"
+      placeholder="Password"
+    />
+  </div>
+  <!-- <div class="form-check">
+    <input type="checkbox" class="form-check-input" id="exampleCheck1" />
+    <label class="form-check-label" for="exampleCheck1">Check me out</label>
+  </div> -->
+  <div class="col text-center">
+    <button (click)="calling(adminForm)" type="submit" class="btn btn-primary">
+      LogIn
+      <i class="now-ui-icons arrows-1_minimal-right"></i>
+    </button>
+  </div>
+</form>

@@ -1,0 +1,10 @@
+.nav-color {
+  background: #ef6236 !important;
+}
+.super {
+  color: red;
+}
+.error-msg {
+  color: red;
+  font-size: x-small;
+}
