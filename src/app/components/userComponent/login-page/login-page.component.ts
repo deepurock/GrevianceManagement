@@ -1,6 +1,17 @@
 import { Component, OnInit } from "@angular/core";
-import { FormBuilder, FormControl, FormGroup } from "@angular/forms";
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  Validators,
+} from "@angular/forms";
 import { BaseService } from "../../base/base.service";
+import { ValidationRequiredMessage } from "../validationsAndMessages/validationMessages";
+import {
+  MaxLength,
+  MinLength,
+  Patterns,
+} from "../validationsAndMessages/validators";
 
 @Component({
   selector: "app-login-page",
@@ -9,18 +20,33 @@ import { BaseService } from "../../base/base.service";
 })
 export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
-
+  isSubmitted = false;
+  pageTitle = "User Registration";
+  pattern: Patterns = new Patterns();
+  maxLength: MaxLength = new MaxLength();
+  minLength: MinLength = new MinLength();
+  errorMsgs: ValidationRequiredMessage = new ValidationRequiredMessage();
   constructor(public formbuilder: FormBuilder, public base: BaseService) {}
   initializeForm() {
     this.loginForm = this.formbuilder.group({
-      email: new FormControl(""),
-      passowrd: new FormControl(""),
+      email: new FormControl("", [
+        Validators.required,
+        Validators.pattern(this.pattern.emailId),
+      ]),
+      password: new FormControl("", [
+        Validators.required,
+        Validators.pattern(this.pattern.password),
+      ]),
     });
   }
   ngOnInit(): void {
     this.initializeForm();
   }
   calling(loginForm) {
+    if (!loginForm.valid) {
+      this.isSubmitted = true;
+      return false;
+    }
     console.log("i click", loginForm.value);
     var testObject = [{ one: 1, two: 2, three: 3 }];
 

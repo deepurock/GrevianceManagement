@@ -9,24 +9,58 @@
 
 <form class="p-5" onsubmit="return false" [formGroup]="adminForm">
   <div class="form-group">
-    <label for="exampleInputEmail1">Email address</label>
+    <label for="exampleInputEmail1"
+      >Email address<sup class="super">*</sup></label
+    >
     <input
       formControlName="email"
       class="form-control"
       aria-describedby="emailHelp"
       placeholder="Enter email"
     />
-    <small id="emailHelp" class="form-text text-muted"
+    <!-- <small id="emailHelp" class="form-text text-muted"
       >We'll never share your email with anyone else.</small
+    > -->
+    <div
+      class="error-msg"
+      *ngIf="
+        isSubmitted &&
+        (adminForm.controls['email'].touched ||
+          !adminForm.controls['email'].valid)
+      "
     >
+      <div *ngIf="adminForm.controls['email'].hasError('required')">
+        {{ errorMsgs.emailReq }}
+      </div>
+      <div *ngIf="adminForm.controls['email'].hasError('pattern')">
+        {{ errorMsgs.emailPattern }}
+      </div>
+    </div>
   </div>
   <div class="form-group">
-    <label for="exampleInputPassword1">Password</label>
+    <label for="exampleInputPassword1"
+      >Password<sup class="super">*</sup></label
+    >
     <input
       formControlName="password"
       class="form-control"
       placeholder="Password"
     />
+    <div
+      class="error-msg"
+      *ngIf="
+        isSubmitted &&
+        (adminForm.controls['password'].touched ||
+          !adminForm.controls['password'].valid)
+      "
+    >
+      <div *ngIf="adminForm.controls['password'].hasError('required')">
+        {{ errorMsgs.passwordReq }}
+      </div>
+      <div *ngIf="adminForm.controls['password'].hasError('pattern')">
+        {{ errorMsgs.passwordPattern }}
+      </div>
+    </div>
   </div>
   <!-- <div class="form-check">
     <input type="checkbox" class="form-check-input" id="exampleCheck1" />
