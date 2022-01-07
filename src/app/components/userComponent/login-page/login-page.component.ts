@@ -5,6 +5,8 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { Router } from "@angular/router";
+import { ToastrService } from "ngx-toastr";
 import { BaseService } from "../../base/base.service";
 import { ValidationRequiredMessage } from "../validationsAndMessages/validationMessages";
 import {
@@ -26,7 +28,12 @@ export class LoginPageComponent implements OnInit {
   maxLength: MaxLength = new MaxLength();
   minLength: MinLength = new MinLength();
   errorMsgs: ValidationRequiredMessage = new ValidationRequiredMessage();
-  constructor(public formbuilder: FormBuilder, public base: BaseService) {}
+  constructor(
+    public formbuilder: FormBuilder,
+    public base: BaseService,
+    private router: Router,
+    private toastr: ToastrService
+  ) {}
   initializeForm() {
     this.loginForm = this.formbuilder.group({
       email: new FormControl("", [
@@ -39,18 +46,59 @@ export class LoginPageComponent implements OnInit {
       ]),
     });
   }
+  showNotification(from, align, color, msg) {
+    // const color = Math.floor((Math.random() * 5) + 1);
+    switch (color) {
+      case 2:
+        this.toastr.success(msg, "Success", {
+          timeOut: 4000,
+          closeButton: true,
+          enableHtml: true,
+          toastClass: "alert alert-success alert-with-icon",
+          positionClass: "toast-" + from + "-" + align,
+        });
+        break;
+      case 1:
+        this.toastr.error(msg, "Error", {
+          timeOut: 4000,
+          enableHtml: true,
+          closeButton: true,
+          toastClass: "alert alert-danger alert-with-icon",
+          positionClass: "toast-" + from + "-" + align,
+        });
+        break;
+      default:
+        break;
+    }
+  }
   ngOnInit(): void {
     this.initializeForm();
   }
   calling(loginForm) {
+    var testObject = {
+      responsecode: "0",
+      statusmsg: "Login Successfully...",
+      usertype: "MEMBER",
+      username: "Deepu",
+    };
+
+    // Put the object into storage
+    localStorage.setItem("testObject", JSON.stringify(testObject));
     if (!loginForm.valid) {
       this.isSubmitted = true;
       return false;
     }
+    this.base.doUserLogin(loginForm.value).subscribe((resp) => {
+      console.log("response is ", resp);
+      if (resp.responsecode == 0) {
+        this.showNotification("top", "right", 2, resp.statusmsg);
+        this.router.navigate(["./dashboard"]);
+      } else if (resp.responsecode == 1) {
+        this.showNotification("top", "right", 1, resp.statusmsg);
+      } else {
+        this.showNotification("top", "right", 1, resp.statusmsg);
+      }
+    });
     console.log("i click", loginForm.value);
-    var testObject = [{ one: 1, two: 2, three: 3 }];
-
-    // Put the object into storage
-    localStorage.setItem("testObject", JSON.stringify(testObject));
   }
 }
