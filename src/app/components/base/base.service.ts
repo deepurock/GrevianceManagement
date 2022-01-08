@@ -93,37 +93,19 @@ export class BaseService {
     };
     return this.httpClient.post(`${this.BASE_URL}/registration`, reqObj);
   }
-  doUserLogin(
-    productName: any,
-    cost: any,
-    firstName: any,
-    lastName: any,
-    age: any
-  ): Observable<any> {
+  doUserLogin(form: any): Observable<any> {
     const reqObj = {
-      productName: productName,
-      cost: cost,
-      firstName: firstName,
-      lastName: lastName,
-      age: +age,
+      email: form.email,
+      password: form.password,
     };
-    return this.httpClient.post("http://localhost:3200" + "/products", reqObj);
+    return this.httpClient.post(`${this.BASE_URL}/login`, reqObj);
   }
-  doAdminLogin(
-    productName: any,
-    cost: any,
-    firstName: any,
-    lastName: any,
-    age: any
-  ): Observable<any> {
+  doAdminLogin(form: any): Observable<any> {
     const reqObj = {
-      productName: productName,
-      cost: cost,
-      firstName: firstName,
-      lastName: lastName,
-      age: +age,
+      email: form.email,
+      password: form.password,
     };
-    return this.httpClient.post("http://localhost:3200" + "/products", reqObj);
+    return this.httpClient.post(`${this.BASE_URL}/adminLogin`, reqObj);
   }
   makeComplaint(
     productName: any,
