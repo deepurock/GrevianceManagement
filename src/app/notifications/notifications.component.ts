@@ -10,6 +10,9 @@ import { BaseService } from '../components/base/base.service';
 export class NotificationsComponent implements OnInit {
 pendingComplaintList = [];
   constructor(private toastr: ToastrService,private base:BaseService) {}
+   user = JSON.parse(localStorage.getItem("testObject"));
+   logged = this.user.usertype;
+  userName = this.user.username
   // showNotification(from, align){
 
   //     const color = Math.floor((Math.random() * 5) + 1);

@@ -4,18 +4,67 @@
     <div class="col-md-12">
       <div class="card">
         <div class="card-header">
-          <h4 class="card-title">Simple Table</h4>
+          <h4 class="card-title">Pending Complaints</h4>
         </div>
-        <div class="card-body">
+
+        <!-- FOR NORMAL MEMBER LOGIN -->
+
+        <div *ngIf="logged === 'MEMBER'" class="card-body">
           <div class="table-responsive scroller">
-            <table class="table">
+            <table *ngIf="pendingComplaintList.length > 0" class="table">
               <thead class="text-primary table-header">
                 <th style="width: 8rem;">Complaint Id</th>
                 <th>Complaint Name</th>
                 <th style="width: 8rem;">Created On</th>
                 <th class="text-right">Status</th>
               </thead>
-              <tbody *ngIf="pendingComplaintList.length > 0" class="table-body">
+              <tbody  class="table-body">
+                <tr *ngFor="let data of pendingComplaintList">
+                  <td>{{data.comId}}</td>
+                  <td>{{data.natureOfComp}}</td>
+                  <td>{{data.createdOn | date: 'dd/MM/yyyy'}}</td>
+                  <td *ngIf="data.stdid == 0" class="text-right">Pending</td>
+                  <td>
+                    <!-- <div style="display: flex;"> -->
+                      <button type="button" data-toggle="tooltip" data-placement="right" title="Tooltip on right" (click)="calling(makeComplaint)" class="btn btn-primary btn-gaps">
+                        
+                        <i class="now-ui-icons gestures_tap-01"></i>
+
+                      </button>
+                      <button type="button" (click)="calling(makeComplaint)" class="btn btn-primary btn-gaps">
+                        
+                        <i class="now-ui-icons ui-1_check"></i>
+                      </button>
+                    <!-- </div> -->
+                  </td>
+
+                </tr>
+                
+              </tbody>
+         
+            </table>
+            <table *ngIf="pendingComplaintList.length == 0" class="table">
+         
+              <tbody  class="table-body">
+               <p>No record found!</p>
+                
+              </tbody>
+         
+            </table>
+          </div>
+        </div>
+
+        <!-- FOR ADMIN LOGIN -->
+        <div *ngIf="logged === 'ADMIN'" class="card-body">
+          <div class="table-responsive scroller">
+            <table *ngIf="pendingComplaintList.length > 0" class="table">
+              <thead class="text-primary table-header">
+                <th style="width: 8rem;">Complaint Id</th>
+                <th>Complaint Name</th>
+                <th style="width: 8rem;">Created On</th>
+                <th class="text-right">Status</th>
+              </thead>
+              <tbody  class="table-body">
                 <tr *ngFor="let data of pendingComplaintList">
                   <td>{{data.comId}}</td>
                   <td>{{data.natureOfComp}}</td>
@@ -24,12 +73,15 @@
                 </tr>
                 
               </tbody>
-              <tbody *ngIf="pendingComplaintList.length == 0" class="table-body">
-                <tr>
-                  <td>No record Found!</td>
-                </tr>
+         
+            </table>
+            <table *ngIf="pendingComplaintList.length == 0" class="table">
+         
+              <tbody  class="table-body">
+               <p>No record found!</p>
                 
               </tbody>
+         
             </table>
           </div>
         </div>
