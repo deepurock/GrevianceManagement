@@ -21,12 +21,13 @@ export class SidebarComponent implements OnInit {
   title: any = "LogOut";
   class: any = "active active-pro";
   constructor() {}
-
+  userName:any = '';
   ngOnInit() {
     var user = JSON.parse(localStorage.getItem("testObject"));
-    var logged = user[0].one;
-    console.log("retrievedObject: ", user[0].two);
-    if (logged == 1) {
+    var logged = user.usertype;
+    this.userName = user.username
+    console.log("retrievedObject: ", logged);
+    if (logged != "MEMBER") {
       dashboard = [
         {
           path: "/dashboard",

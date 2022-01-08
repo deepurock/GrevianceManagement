@@ -1,4 +1,45 @@
-<div class="panel-header">
+<div class="panel-header panel-header-sm"></div>
+<div class="main-content">
+  <div class="row">
+    <div class="col-md-12">
+      <div class="card">
+        <div class="card-header">
+          <h4 class="card-title">Simple Table</h4>
+        </div>
+        <div class="card-body">
+          <div class="table-responsive scroller">
+            <table class="table">
+              <thead class="text-primary table-header">
+                <th style="width: 8rem;">Complaint Id</th>
+                <th>Complaint Name</th>
+                <th style="width: 8rem;">Created On</th>
+                <th class="text-right">Status</th>
+              </thead>
+              <tbody *ngIf="pendingComplaintList.length > 0" class="table-body">
+                <tr *ngFor="let data of pendingComplaintList">
+                  <td>{{data.comId}}</td>
+                  <td>{{data.natureOfComp}}</td>
+                  <td>{{data.createdOn | date: 'dd/MM/yyyy'}}</td>
+                  <td *ngIf="data.stdid == 0" class="text-right">Pending</td>
+                </tr>
+                
+              </tbody>
+              <tbody *ngIf="pendingComplaintList.length == 0" class="table-body">
+                <tr>
+                  <td>No record Found!</td>
+                </tr>
+                
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<!-- <div class="panel-header">
   <div class="header text-center">
     <h2 class="title">Notifications</h2>
     <p class="category">Please checkout the
@@ -131,4 +172,4 @@
       </div>
     </div>
   </div>
-</div>
+</div> -->

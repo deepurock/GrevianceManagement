@@ -1,0 +1,9 @@
+.scroller{
+    overflow-x: hidden !important;
+}
+.table-header{
+    text-align: center !important;
+}
+.table-body{
+    text-align: center !important;
+}

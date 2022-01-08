@@ -22,7 +22,7 @@ import {
 })
 export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
-  @ViewChild('changeText') changeText:ElementRef;
+  // @ViewChild('changeText') changeText:ElementRef;
   isSubmitted = false;
   pageTitle = "User Registration";
   pattern: Patterns = new Patterns();
@@ -78,18 +78,10 @@ export class LoginPageComponent implements OnInit {
     this.initializeForm();
   }
   ngAfterViewInit() {
-    this.changeText.nativeElement.value = 'Whale!';
+    // this.changeText.nativeElement.value = 'Whale!';
   }
   calling(loginForm) {
-    var testObject = {
-      responsecode: "0",
-      statusmsg: "Login Successfully...",
-      usertype: "MEMBER",
-      username: "Deepu",
-    };
-
     // Put the object into storage
-    localStorage.setItem("testObject", JSON.stringify(testObject));
     if (!loginForm.valid) {
       this.isSubmitted = true;
       return false;
@@ -98,6 +90,7 @@ export class LoginPageComponent implements OnInit {
       console.log("response is ", resp);
       if (resp.responsecode == 0) {
         this.showNotification("top", "right", 2, resp.statusmsg);
+    localStorage.setItem("testObject", JSON.stringify(resp));
         this.router.navigate(["./dashboard"]);
       } else if (resp.responsecode == 1) {
         this.showNotification("top", "right", 1, resp.statusmsg);

@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Observable } from "rxjs";
+import { from, Observable } from "rxjs";
 import { finalize, tap } from "rxjs/operators";
 
 @Injectable({
@@ -8,26 +8,15 @@ import { finalize, tap } from "rxjs/operators";
 })
 export class BaseService {
   constructor(private httpClient: HttpClient) {}
+   currentUser = JSON.parse(localStorage.getItem("testObject"));
   BASE_URL: string = "http://192.168.0.106:8080";
   getCompletedComplaint(): Observable<any> {
-    return this.httpClient.get("http://localhost:3200/").pipe(
-      tap((_) => {
-        console.log("API successfull");
-      }),
-      finalize(() => {
-        console.log("API successfull does not matter");
-      })
-    );
+    return this.httpClient.get(`${this.BASE_URL}/pendingComplaint/${this.currentUser.id}`);
+
   }
   getPendingComplaint(): Observable<any> {
-    return this.httpClient.get("http://localhost:3200/").pipe(
-      tap((_) => {
-        console.log("API successfull");
-      }),
-      finalize(() => {
-        console.log("API successfull does not matter");
-      })
-    );
+    return this.httpClient.get(`${this.BASE_URL}/pendingComplaint/${this.currentUser.id}`);
+
   }
   getInprogressComplaint(): Observable<any> {
     return this.httpClient.get("http://localhost:3200/").pipe(
@@ -108,20 +97,16 @@ export class BaseService {
     return this.httpClient.post(`${this.BASE_URL}/adminLogin`, reqObj);
   }
   makeComplaint(
-    productName: any,
-    cost: any,
-    firstName: any,
-    lastName: any,
-    age: any
+    form:any
   ): Observable<any> {
     const reqObj = {
-      productName: productName,
-      cost: cost,
-      firstName: firstName,
-      lastName: lastName,
-      age: +age,
+      category: form.category,
+      complaint: form.complaint,
+      complaintNature: form.complaintNature,
+      subCategory: form.subCategory,
+      studentId:this.currentUser.id
     };
-    return this.httpClient.post("http://localhost:3200" + "/products", reqObj);
+    return this.httpClient.post(`${this.BASE_URL}/makeComplaint`, reqObj);
   }
   acceptComplaint(
     productName: any,
