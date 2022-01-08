@@ -36,6 +36,8 @@ export class LoginPageComponent implements OnInit {
     private toastr: ToastrService
   ) {}
   initializeForm() {
+
+    
     this.loginForm = this.formbuilder.group({
       email: new FormControl("", [
         Validators.required,
