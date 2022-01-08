@@ -105,5 +105,4 @@ pendingComplaintList = [];
       }
     })
   }
-
 }

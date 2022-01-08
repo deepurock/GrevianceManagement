@@ -68,6 +68,9 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() {
     this.initializeForm();
+    let age = 12;
+   let chain = age ?? 32;
+   console.log('age is',chain);
   }
   calling(makeComplaint) {
     console.log("dsfjsfls", makeComplaint.value);

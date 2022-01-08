@@ -13,12 +13,14 @@ import { AppComponent } from "./app.component";
 
 import { AdminLayoutComponent } from "./layouts/admin-layout/admin-layout.component";
 import { RegistrationPageModule } from "./components/userComponent/registration-page/registration-page.module";
+import { BrowserModule } from "@angular/platform-browser";
 
 @NgModule({
   imports: [
     BrowserAnimationsModule,
     FormsModule,
     HttpClientModule,
+    BrowserModule,
     ComponentsModule,
     RouterModule,
     RegistrationPageModule,

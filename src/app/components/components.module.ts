@@ -10,12 +10,13 @@ import { RegistrationPageComponent } from "./userComponent/registration-page/reg
 import { LoginPageComponent } from "./userComponent/login-page/login-page.component";
 import { AdminPageComponent } from "./userComponent/admin-page/admin-page.component";
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { BrowserModule } from "@angular/platform-browser";
 
 @NgModule({
   imports: [
     CommonModule,
     RouterModule,
-    NgbModule,
+    NgbModule,BrowserModule,
     ReactiveFormsModule,
     FormsModule,
   ],
