@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import {
   FormBuilder,
   FormControl,
@@ -20,6 +20,7 @@ import {
 })
 export class LoginPageComponent implements OnInit {
   loginForm: FormGroup;
+  @ViewChild('changeText') changeText:ElementRef;
   isSubmitted = false;
   pageTitle = "User Registration";
   pattern: Patterns = new Patterns();
@@ -42,15 +43,19 @@ export class LoginPageComponent implements OnInit {
   ngOnInit(): void {
     this.initializeForm();
   }
+  ngAfterViewInit() {
+    this.changeText.nativeElement.value = 'Whale!';
+  }
   calling(loginForm) {
+    var testObject = [{ one: 1, two: 2, three: 3 }];
+
+    // Put the object into storage
+    localStorage.setItem("testObject", JSON.stringify(testObject));
     if (!loginForm.valid) {
       this.isSubmitted = true;
       return false;
     }
     console.log("i click", loginForm.value);
-    var testObject = [{ one: 1, two: 2, three: 3 }];
-
-    // Put the object into storage
-    localStorage.setItem("testObject", JSON.stringify(testObject));
+  
   }
 }
