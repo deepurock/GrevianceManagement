@@ -7,19 +7,21 @@ import { finalize, tap } from "rxjs/operators";
   providedIn: "root",
 })
 export class BaseService {
-  constructor(private httpClient: HttpClient) {}
-   currentUser = JSON.parse(localStorage.getItem("testObject"));
+  constructor(private httpClient: HttpClient) {
+  }
+  //  currentUser = JSON.parse(localStorage.getItem("currentUser"));
+  
   BASE_URL: string = "http://192.168.0.106:8080";
-  getCompletedComplaint(): Observable<any> {
-    return this.httpClient.get(`${this.BASE_URL}/pendingComplaint/${this.currentUser.id}`);
+  getCompletedComplaint(studentId:any): Observable<any> {
+    return this.httpClient.get(`${this.BASE_URL}/complaint/${studentId}/C`);
 
   }
-  getPendingComplaint(): Observable<any> {
-    return this.httpClient.get(`${this.BASE_URL}/pendingComplaint/${this.currentUser.id}`);
+  getPendingComplaint(studentId:any): Observable<any> {
+    return this.httpClient.get(`${this.BASE_URL}/complaint/${studentId}/P`);
 
   }
-  getInprogressComplaint(): Observable<any> {
-    return this.httpClient.get("http://localhost:3200/").pipe(
+  getInprogressComplaint(studentId:any): Observable<any> {
+    return this.httpClient.get(`${this.BASE_URL}/complaint/${studentId}/IP`).pipe(
       tap((_) => {
         console.log("API successfull");
       }),
@@ -97,14 +99,14 @@ export class BaseService {
     return this.httpClient.post(`${this.BASE_URL}/adminLogin`, reqObj);
   }
   makeComplaint(
-    form:any
+    form:any,studentId:any
   ): Observable<any> {
     const reqObj = {
       category: form.category,
       complaint: form.complaint,
       complaintNature: form.complaintNature,
       subCategory: form.subCategory,
-      studentId:this.currentUser.id
+      studentId:studentId
     };
     return this.httpClient.post(`${this.BASE_URL}/makeComplaint`, reqObj);
   }

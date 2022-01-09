@@ -9,8 +9,9 @@ import { BaseService } from '../components/base/base.service';
 })
 export class NotificationsComponent implements OnInit {
 pendingComplaintList = [];
+showLoader:boolean = false;
   constructor(private toastr: ToastrService,private base:BaseService) {}
-   user = JSON.parse(localStorage.getItem("testObject"));
+   user = JSON.parse(window.localStorage.getItem("currentUser"));
    logged = this.user.usertype;
   userName = this.user.username
   // showNotification(from, align){
@@ -93,16 +94,23 @@ pendingComplaintList = [];
     }
   }
   ngOnInit() {
-    this.base.getPendingComplaint().subscribe(resp=>{
+    this.showLoader = true;
+    this.base.getPendingComplaint(this.user.id).subscribe(resp=>{
       console.log("response is ", resp);
       if (resp.responsecode == 0) {
+        this.showLoader = false;
         this.showNotification("top", "right", 2, resp.statusmsg);
         this.pendingComplaintList = resp.data
       } else if (resp.responsecode == 1) {
+        this.showLoader = false;
+
         this.showNotification("top", "right", 1, resp.statusmsg);
       } else {
+        this.showLoader = false;
         this.showNotification("top", "right", 1, resp.statusmsg);
       }
+    },(error)=>{
+      this.showNotification("top", "right", 1, error.message);
     })
   }
 }

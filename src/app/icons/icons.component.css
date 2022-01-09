@@ -1,0 +1,19 @@
+.loader{
+    margin: 0;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+  }
+  .scroller{
+    overflow-x: hidden !important;
+    overflow-y: auto !important;
+}
+.table-header{
+    text-align: center !important;
+}
+.table-body{
+    text-align: center !important;
+}
+.btn-margin{
+    margin-right: 0.5rem !important;
+}

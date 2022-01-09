@@ -27,12 +27,16 @@ export class DashboardComponent implements OnInit {
   pattern: Patterns = new Patterns();
   maxLength: MaxLength = new MaxLength();
   minLength: MinLength = new MinLength();
+  user:any;
   errorMsgs: ValidationRequiredMessage = new ValidationRequiredMessage();
   constructor(public formBuilder: FormBuilder,
     private router: Router,
     private toastr: ToastrService,
     public base: BaseService,
-    ) {}
+    ) {
+   this.user = JSON.parse(window.localStorage.getItem("currentUser"));
+
+    }
   initializeForm() {
     this.makeComplaint = this.formBuilder.group({
       category: new FormControl("", [Validators.required]),
@@ -68,9 +72,7 @@ export class DashboardComponent implements OnInit {
   }
   ngOnInit() {
     this.initializeForm();
-    let age = 12;
-   let chain = age ?? 32;
-   console.log('age is',chain);
+    
   }
   calling(makeComplaint) {
     console.log("dsfjsfls", makeComplaint.value);
@@ -79,7 +81,7 @@ export class DashboardComponent implements OnInit {
       this.isSubmitted = true;
       return false;
     }
-    this.base.makeComplaint(makeComplaint.value).subscribe(resp =>{
+    this.base.makeComplaint(makeComplaint.value,this.user.id).subscribe(resp =>{
       console.log("response is ", resp);
       if (resp.responsecode == 0) {
         this.showNotification("top", "right", 2, resp.statusmsg);
@@ -89,6 +91,9 @@ export class DashboardComponent implements OnInit {
       } else {
         this.showNotification("top", "right", 1, resp.statusmsg);
       }
-    })
+    }),(error)=>{
+      this.showNotification("top", "right", 1, error);
+
+    }
   }
 }

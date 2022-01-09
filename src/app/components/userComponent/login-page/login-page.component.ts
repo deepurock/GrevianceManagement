@@ -90,7 +90,7 @@ export class LoginPageComponent implements OnInit {
       console.log("response is ", resp);
       if (resp.responsecode == 0) {
         this.showNotification("top", "right", 2, resp.statusmsg);
-    localStorage.setItem("testObject", JSON.stringify(resp));
+    localStorage.setItem("currentUser", JSON.stringify(resp));
         this.router.navigate(["./dashboard"]);
       } else if (resp.responsecode == 1) {
         this.showNotification("top", "right", 1, resp.statusmsg);

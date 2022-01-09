@@ -1,4 +1,5 @@
 import { Component, OnInit } from "@angular/core";
+import { Router } from "@angular/router";
 
 declare interface RouteInfo {
   path: string;
@@ -8,7 +9,7 @@ declare interface RouteInfo {
 }
 var dashboard: any = [];
 export const ROUTES: RouteInfo[] = dashboard;
-// var retrievedObject = localStorage.getItem("testObject");
+// var retrievedObject = localStorage.getItem("currentUser");
 
 @Component({
   selector: "app-sidebar",
@@ -20,14 +21,16 @@ export class SidebarComponent implements OnInit {
   myIcon: any = "sport_user-run";
   title: any = "LogOut";
   class: any = "active active-pro";
-  constructor() {}
+  constructor(private router:Router) {}
   userName:any = '';
+  user:any;
+  logged:any;
   ngOnInit() {
-    var user = JSON.parse(localStorage.getItem("testObject"));
-    var logged = user.usertype;
-    this.userName = user.username
-    console.log("retrievedObject: ", logged);
-    if (logged != "MEMBER") {
+     this.user = JSON.parse(window.localStorage.getItem("currentUser"));
+     this.logged = this.user.usertype;
+    this.userName = this.user.username
+    console.log("retrievedObject: ", this.user);
+    if (this.logged != "MEMBER") {
       dashboard = [
         {
           path: "/dashboard",
@@ -99,6 +102,8 @@ export class SidebarComponent implements OnInit {
   }
   clickfun() {
     console.log("fun called");
+    window.localStorage.clear();
+    this.router.navigate(['./login']);
   }
   isMobileMenu() {
     if (window.innerWidth > 991) {

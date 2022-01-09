@@ -1,5 +1,8 @@
 <div class="panel-header panel-header-sm"></div>
-<div class="main-content">
+<div *ngIf="showLoader" class="spinner-border loader" role="status">
+  <span class="sr-only">Loading...</span>
+</div>
+<div *ngIf="!showLoader" class="main-content">
   <div class="row">
     <div class="col-md-12">
       <div class="card">
@@ -24,20 +27,8 @@
                   <td>{{data.comId}}</td>
                   <td>{{data.natureOfComp}}</td>
                   <td>{{data.createdOn | date: 'dd/MM/yyyy'}}</td>
-                  <td *ngIf="data.stdid == 0" class="text-right">Pending</td>
-                  <td>
-                    <!-- <div style="display: flex;"> -->
-                      <button type="button" data-toggle="tooltip" data-placement="right" title="Tooltip on right" (click)="calling(makeComplaint)" class="btn btn-primary btn-gaps">
-                        
-                        <i class="now-ui-icons gestures_tap-01"></i>
-
-                      </button>
-                      <button type="button" (click)="calling(makeComplaint)" class="btn btn-primary btn-gaps">
-                        
-                        <i class="now-ui-icons ui-1_check"></i>
-                      </button>
-                    <!-- </div> -->
-                  </td>
+                  <td *ngIf="data.flag == 'P'" class="text-right">Pending</td>
+                  
 
                 </tr>
                 
@@ -71,6 +62,19 @@
                   <td>{{data.natureOfComp}}</td>
                   <td>{{data.createdOn | date: 'dd/MM/yyyy'}}</td>
                   <td *ngIf="data.stdid == 0" class="text-right">Pending</td>
+                  <td>
+                    <!-- <div style="display: flex;"> -->
+                      <button type="button" data-toggle="tooltip" data-placement="right" title="Tooltip on right" (click)="calling(makeComplaint)" class="btn btn-primary btn-gaps">
+                        
+                        <i class="now-ui-icons gestures_tap-01"></i>
+
+                      </button>
+                      <button type="button" (click)="calling(makeComplaint)" class="btn btn-primary btn-gaps">
+                        
+                        <i class="now-ui-icons ui-1_check"></i>
+                      </button>
+                    <!-- </div> -->
+                  </td>
                 </tr>
                 
               </tbody>

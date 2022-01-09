@@ -14,3 +14,10 @@
 .btn-gaps {
     margin-right: 1rem;
   }
+
+  .loader{
+    margin: 0;
+    position: absolute;
+    top: 75%;
+    left: 50%;
+  }
