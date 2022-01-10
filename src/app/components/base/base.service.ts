@@ -10,25 +10,44 @@ export class BaseService {
   constructor(private httpClient: HttpClient) {
   }
   //  currentUser = JSON.parse(localStorage.getItem("currentUser"));
-  
+
   BASE_URL: string = "http://192.168.0.106:8080";
-  getCompletedComplaint(studentId:any): Observable<any> {
-    return this.httpClient.get(`${this.BASE_URL}/complaint/${studentId}/C`);
+  getCompletedComplaint(studentId: any, userType: any): Observable<any> {
+    let URL: any;
+    if(userType == "Admin"){
+      URL = '/getAll'
+    }else{
+      URL = `/complaint/${studentId}`;
+    }
+    return this.httpClient.get(`${this.BASE_URL}${URL}/C`);
 
   }
-  getPendingComplaint(studentId:any): Observable<any> {
-    return this.httpClient.get(`${this.BASE_URL}/complaint/${studentId}/P`);
+  getPendingComplaint(studentId: any,userType:any): Observable<any> {
+    let URL: any;
+    if(userType == "Admin"){
+      URL = '/getAll'
+    }else{
+      URL = `/complaint/${studentId}`;
+    }
+    return this.httpClient.get(`${this.BASE_URL}${URL}/P`);
 
   }
-  getInprogressComplaint(studentId:any): Observable<any> {
-    return this.httpClient.get(`${this.BASE_URL}/complaint/${studentId}/IP`).pipe(
-      tap((_) => {
-        console.log("API successfull");
-      }),
-      finalize(() => {
-        console.log("API successfull does not matter");
-      })
-    );
+  getInprogressComplaint(studentId: any,userType:any): Observable<any> {
+    let URL: any;
+    if(userType == "Admin"){
+      URL = '/getAll'
+    }else{
+      URL = `/complaint/${studentId}`;
+    }
+    return this.httpClient.get(`${this.BASE_URL}${URL}/IP`);
+    // return this.httpClient.get(`${this.BASE_URL}/complaint/${studentId}/IP`).pipe(
+    //   tap((_) => {
+    //     console.log("API successfull");
+    //   }),
+    //   finalize(() => {
+    //     console.log("API successfull does not matter");
+    //   })
+    // );
   }
   dummyGetReq(): Observable<any> {
     return this.httpClient.get(`${this.BASE_URL}/findAll`).pipe(
@@ -50,28 +69,7 @@ export class BaseService {
       })
     );
   }
-  // addProductDetails(
-  //   productName: any,
-  //   cost: any,
-  //   firstName: any,
-  //   lastName: any,
-  //   age: any
-  // ): Observable<any> {
-  //   return this.httpClient.get(
-  //     "http://localhost:3200" +
-  //       "/products?" +
-  //       "productName=" +
-  //       productName +
-  //       "&cost=" +
-  //       cost +
-  //       "&firstName=" +
-  //       firstName +
-  //       "&lastName=" +
-  //       lastName +
-  //       "&age=" +
-  //       age
-  //   );
-  // }
+
 
   douserRegistration(form: any): Observable<any> {
     const reqObj = {
@@ -99,47 +97,27 @@ export class BaseService {
     return this.httpClient.post(`${this.BASE_URL}/adminLogin`, reqObj);
   }
   makeComplaint(
-    form:any,studentId:any
+    form: any, studentId: any
   ): Observable<any> {
     const reqObj = {
       category: form.category,
       complaint: form.complaint,
       complaintNature: form.complaintNature,
       subCategory: form.subCategory,
-      studentId:studentId
+      studentId: studentId
     };
     return this.httpClient.post(`${this.BASE_URL}/makeComplaint`, reqObj);
   }
   acceptComplaint(
-    productName: any,
-    cost: any,
-    firstName: any,
-    lastName: any,
-    age: any
+    complaintId:any
   ): Observable<any> {
-    const reqObj = {
-      productName: productName,
-      cost: cost,
-      firstName: firstName,
-      lastName: lastName,
-      age: +age,
-    };
-    return this.httpClient.post("http://localhost:3200" + "/products", reqObj);
+    return this.httpClient.get(`${this.BASE_URL}/process/${complaintId}/IP`);
   }
-  rejectComplaint(
-    productName: any,
-    cost: any,
-    firstName: any,
-    lastName: any,
-    age: any
+  resolvedComplaint(
+    complaintId:any
+   
   ): Observable<any> {
-    const reqObj = {
-      productName: productName,
-      cost: cost,
-      firstName: firstName,
-      lastName: lastName,
-      age: +age,
-    };
-    return this.httpClient.post("http://localhost:3200" + "/products", reqObj);
+   
+    return this.httpClient.get(`${this.BASE_URL}/process/${complaintId}/C`);
   }
 }

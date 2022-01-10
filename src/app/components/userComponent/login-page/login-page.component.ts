@@ -8,6 +8,7 @@ import {
 import { Router } from "@angular/router";
 import { ToastrService } from "ngx-toastr";
 import { BaseService } from "../../base/base.service";
+import { ErrorService } from "../../errorHandler/error.service";
 import { ValidationRequiredMessage } from "../validationsAndMessages/validationMessages";
 import {
   MaxLength,
@@ -33,11 +34,12 @@ export class LoginPageComponent implements OnInit {
     public formbuilder: FormBuilder,
     public base: BaseService,
     private router: Router,
+    private errorService: ErrorService,
     private toastr: ToastrService
-  ) {}
+  ) { }
   initializeForm() {
 
-    
+
     this.loginForm = this.formbuilder.group({
       email: new FormControl("", [
         Validators.required,
@@ -90,13 +92,17 @@ export class LoginPageComponent implements OnInit {
       console.log("response is ", resp);
       if (resp.responsecode == 0) {
         this.showNotification("top", "right", 2, resp.statusmsg);
-    localStorage.setItem("currentUser", JSON.stringify(resp));
+        localStorage.setItem("currentUser", JSON.stringify(resp));
         this.router.navigate(["./dashboard"]);
       } else if (resp.responsecode == 1) {
         this.showNotification("top", "right", 1, resp.statusmsg);
       } else {
         this.showNotification("top", "right", 1, resp.statusmsg);
       }
+    }, (error) => {
+      let err = this.errorService.handleHtrpErrors(error);
+      this.showNotification("top", "right", 1, err);
+
     });
     console.log("i click", loginForm.value);
   }

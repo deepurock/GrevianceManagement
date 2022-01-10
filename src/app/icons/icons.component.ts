@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastrService } from 'ngx-toastr';
 import { BaseService } from '../components/base/base.service';
+import { ErrorService } from '../components/errorHandler/error.service';
 
 @Component({
   selector: 'app-icons',
@@ -10,7 +11,7 @@ import { BaseService } from '../components/base/base.service';
 export class IconsComponent implements OnInit {
   completedComplaintList = [];
   showLoader: boolean = false;
-  constructor(private toastr: ToastrService, private base: BaseService) { }
+  constructor(private toastr: ToastrService, private base: BaseService,private errorService:ErrorService) { }
   user = JSON.parse(window.localStorage.getItem("currentUser"));
   logged = this.user.usertype;
   userName = this.user.username
@@ -42,7 +43,7 @@ export class IconsComponent implements OnInit {
   }
   ngOnInit() {
       this.showLoader = true;
-      this.base.getCompletedComplaint(this.user.id).subscribe(resp => {
+      this.base.getCompletedComplaint(this.user.id,this.user.usertype).subscribe(resp => {
           console.log("response is ", resp);
           if (resp.responsecode == 0) {
               this.showLoader = false;
@@ -57,7 +58,8 @@ export class IconsComponent implements OnInit {
               this.showNotification("top", "right", 1, resp.statusmsg);
           }
       }, (error) => {
-          this.showNotification("top", "right", 1, error);
+          let err = this.errorService.handleHtrpErrors(error);
+          this.showNotification("top", "right", 1, err);
 
       })
   }

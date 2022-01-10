@@ -43,7 +43,7 @@
         </div>
 
         <!-- FOR ADMIN LOGIN -->
-        <div *ngIf="logged === 'ADMIN'" class="card-body">
+        <div *ngIf="logged !== 'MEMBER'" class="card-body">
           <div class="table-responsive scroller">
             <table *ngIf="inProgressComplaintList.length > 0" class="table">
               <thead class="text-primary table-header">
@@ -51,21 +51,23 @@
                 <th>Complaint Name</th>
                 <th style="width: 8rem;">Created On</th>
                 <th class="text-right">Status</th>
+                <th class="text-center">Action</th>
+
               </thead>
               <tbody  class="table-body">
                 <tr *ngFor="let data of inProgressComplaintList">
                   <td>{{data.comId}}</td>
                   <td>{{data.natureOfComp}}</td>
                   <td>{{data.createdOn | date: 'dd/MM/yyyy'}}</td>
-                  <td *ngIf="data.stdid == 0" class="text-right">Pending</td>
+                  <td *ngIf="data.flag == 'IP'" class="text-right">In-Progess</td>
                   <td>
                     <!-- <div style="display: flex;"> -->
-                      <button type="button" data-toggle="tooltip" data-placement="right" title="Tooltip on right" (click)="calling(makeComplaint)" class="btn btn-primary btn-gaps">
+                      <!-- <button type="button" data-toggle="tooltip" data-placement="right" title="mark as InProgress" (click)="calling(makeComplaint)" class="btn btn-primary btn-gaps">
                         
                         <i class="now-ui-icons gestures_tap-01"></i>
 
-                      </button>
-                      <button type="button" (click)="calling(makeComplaint)" class="btn btn-primary btn-gaps">
+                      </button> -->
+                      <button type="button" data-toggle="tooltip" data-placement="right" title="mark as resolved" (click)="markResolved(data.comId)" class="btn btn-primary btn-gaps">
                         
                         <i class="now-ui-icons ui-1_check"></i>
                       </button>
